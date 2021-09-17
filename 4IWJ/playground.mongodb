@@ -1,0 +1,112 @@
+// 1) Rechercher tous les films dont 
+// - la description comprend "documentary"
+// - et catégorie "horror"
+db.Sakila_films.find({
+    Description: /documentary/i,
+    Category: "Horror"
+});
+
+// 2) Donner le nombre de films en rating “G”
+db.Sakila_films.count({
+    Rating: "G"
+});
+db.Sakila_films.find({
+    Rating: "G"
+}).count();
+db.Sakila_films.find({Rating: "G"}).toArray().length;
+
+// 3) Rechercher tous les films 
+//  - de 2013 ou 2012 
+// - dont la durée est entre 60 et 150 minutes
+db.video_movieDetails.find({
+    $or: [{year: 2013}, {year: 2012}],
+    runtime: {$gte: 60, $lte: 150}
+});
+db.video_movieDetails.find({
+    year: {$in: [2013, 2012]},
+    runtime: {$gte: 60, $lte: 150}
+});
+
+// 4) Rechercher tous les films qui ont une image certified sur tomato
+db.video_movieDetails.find({
+    "tomato.image": "certified"
+});
+
+// 5) Rechercher tous les films avec l’acteur "ED CHASE"
+db.Sakila_films.find({
+    Actors: {$elemMatch: {"First name": "ED", "Last name": "CHASE"}}
+});
+
+// Tous les films qui ont 
+// - un acteur qui se prénomme "ED"
+// - un acteur qui se nomme "CHASE"
+db.Sakila_films.find({
+    "Actors.First name": "ED", "Actors.Last name": "CHASE"
+});
+
+// 6) Afficher tous les rated (“PG”, “PG-13”, ...) et le nombre de films pour chacun
+db.Sakila_films.aggregate([
+    {$group: {_id: "$Rating", count: {$sum: 1}}}
+]);
+
+db.Sakila_films.aggregate([
+    {$group: {
+        _id: "$Rating", 
+        count: {$count: {}}
+    }}
+]);
+db.Sakila_films.aggregate([
+    {$group: {
+        _id: "$Rating", 
+        count: {$count: {}}
+    }},
+    {$addFields: {
+      rating: "$_id"
+    }},
+    {$project: {
+      _id: 0
+    }}
+]);
+
+db.Sakila_films.aggregate([
+    {$group: {_id: {rating: "$Rating", categ: "$Category"}, count: {$sum: 1}}},
+    {$sort: {"_id.rating": 1, "_id.categ": -1}},
+    {$group: {_id: "$_id.rating", count: {$sum: "$count"}}}
+]);
+
+// Liste des films par acteurs Sakila_films 
+// qui ont joués dans le film id:17
+db.Sakila_films.aggregate([
+    {$unwind: "$Actors"},
+    {$group: {
+        _id: {actorId: "$Actors.actorId", lastname: "$Actors.Last name", firstname: "$Actors.First name"},
+        movies: {$addToSet: {
+            movieId: "$_id",
+            title: "$Title"
+        }}
+    }},
+    {$addFields: {
+      firstname: "$_id.firstname",
+      lastname: "$_id.lastname",
+      _id: "$_id.actorId"
+    }},
+    {$match: {"movies.movieId": 17}}
+]);
+
+// Afficher par acteur le film 17
+db.Sakila_films.aggregate([
+    {$match: {"_id": 17}},
+    {$unwind: "$Actors"},
+    {$group: {
+        _id: {actorId: "$Actors.actorId", lastname: "$Actors.Last name", firstname: "$Actors.First name"},
+        movies: {$addToSet: {
+            movieId: "$_id",
+            title: "$Title"
+        }}
+    }},
+    {$addFields: {
+      firstname: "$_id.firstname",
+      lastname: "$_id.lastname",
+      _id: "$_id.actorId"
+    }}
+]);
