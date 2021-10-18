@@ -14,7 +14,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <Menu theme={theme} toggleTheme={toggleTheme} />
-        <List theme={theme} />
+        {theme === "light" && <List theme={theme} />}
         <Button
           theme={theme}
           title="Click ME"

@@ -8,5 +8,5 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: password
     volumes:
-      - ./SampleCollections:/usr/local/sampleCollections
+      - ./4IWJ/SampleCollections:/usr/local/sampleCollections
     working_dir: /usr/local/sampleCollections

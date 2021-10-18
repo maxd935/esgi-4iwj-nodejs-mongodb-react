@@ -5,10 +5,11 @@ export default function ListItem({
   animal,
   handleQuantityChange,
   deleteAnimal,
+  onClick,
 }) {
   return (
     <>
-      <li>
+      <li onClick={onClick}>
         <div>
           {animal.name} {animal.quantity}
         </div>

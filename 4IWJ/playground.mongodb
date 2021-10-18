@@ -110,3 +110,36 @@ db.Sakila_films.aggregate([
       _id: "$_id.actorId"
     }}
 ]);
+
+// A partir de Sakila_films, ressortir les films indexés par Rating avec le nombre de film,
+// sauvegarder le résultat dans une nouvelle collection
+db.Sakila_films.aggregate([
+    {$group: {_id: "$Rating", count: {$sum: 1}, movies: {
+        $addToSet: {
+            id: "$_id",
+            Title: "$Title",
+        }
+    }}},
+    {$out: "Sakila_films_by_rating"}
+]);
+
+// A partir de DBEnvyLoad_orders, la liste des produits avec la moyenne de nombre par commandes (global)
+// dont les produits ont été commandés au moins une fois par le custId: 64557
+db.DBEnvyLoad_orders.aggregate([
+    {$unwind: "$lineItems"},
+    {$group: {_id: "$lineItems.prodId", avg: {$avg: "$lineItems.prodCount"}, orders: {$addToSet: {
+        custId: "$CustId"
+    }}}},
+    {$match: {"orders.custId": 64557}},
+    {$match: {_id: 4559}}
+])
+
+// A partir de DBEnvyLoad_orders, la liste des produits avec la moyenne de nombre par commandes du custId : 64557
+db.DBEnvyLoad_orders.aggregate([
+    {$match: {"CustId": 64557}},
+    {$unwind: "$lineItems"},
+    {$group: {_id: "$lineItems.prodId", avg: {$avg: "$lineItems.prodCount"}, orders: {$addToSet: {
+        custId: "$CustId"
+    }}}},
+    {$match: {_id: 4559}}
+])

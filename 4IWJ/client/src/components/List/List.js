@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { render } from "react-dom";
 import Form from "./Form";
 import ListItem from "./ListItem";
 
@@ -11,6 +12,30 @@ const defaultAnimals = [
 
 export default function List({ theme }) {
   const [animals, setAnimals] = useState(defaultAnimals);
+  const [animalSelected, setAnimalSelected] = useState(null);
+
+  useEffect(() => {
+    console.log("mounting");
+    return () => {
+      console.log("unmounting");
+    };
+  }, []);
+
+  useEffect(() => {
+    console.log("theme has changed : " + theme);
+
+    return () => {
+      console.log("theme will update : " + theme);
+    };
+  }, [theme]);
+
+  useEffect(() => {
+    console.log("animals has changed");
+  }, [animals]);
+
+  useEffect(() => {
+    console.log("theme or animals have changed");
+  }, [theme, animals]);
 
   const handleQuantityChange = (animal, operator) => () => {
     if (operator === "-" && animal.quantity === 1) deleteAnimal(animal);
@@ -42,13 +67,14 @@ export default function List({ theme }) {
 
   return (
     <>
-      <Form theme={theme} onSubmit={addAnimal} />
+      <Form item={animalSelected} theme={theme} onSubmit={addAnimal} />
       <ul>
         {animals.map((animal) => (
           <ListItem
             theme={theme}
             key={animal.name}
             animal={animal}
+            onClick={() => setAnimalSelected(animal)}
             deleteAnimal={deleteAnimal}
             handleQuantityChange={handleQuantityChange}
           />
