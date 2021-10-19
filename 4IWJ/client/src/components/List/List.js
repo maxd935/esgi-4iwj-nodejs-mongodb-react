@@ -11,11 +11,15 @@ const defaultAnimals = [
 ];
 
 export default function List({ theme }) {
-  const [animals, setAnimals] = useState(defaultAnimals);
+  const [animals, setAnimals] = useState(null);
   const [animalSelected, setAnimalSelected] = useState(null);
-
   useEffect(() => {
     console.log("mounting");
+    fetch("http://localhost:3001/animals")
+      .then((res) => res.json())
+      .then((data) => {
+        setAnimals(data);
+      });
     return () => {
       console.log("unmounting");
     };
@@ -40,47 +44,78 @@ export default function List({ theme }) {
   const handleQuantityChange = (animal, operator) => () => {
     if (operator === "-" && animal.quantity === 1) deleteAnimal(animal);
     else
-      setAnimals(
-        animals.map((item) => {
-          if (item.name === animal.name) {
-            switch (operator) {
-              case "+":
-                item.quantity++;
-                break;
-              case "-":
-                if (item.quantity) item.quantity--;
-                break;
-            }
-          }
-          return item;
-        })
-      );
+      fetch(`http://localhost:3001/animals/${animal.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          quantity: animal.quantity + (operator === "-" ? -1 : 1),
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setAnimals(animals.map((a) => (a.id === data.id ? data : a)));
+        });
   };
 
   const addAnimal = (value) => {
-    setAnimals([...animals, value]);
+    fetch("http://localhost:3001/animals", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(value),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setAnimals([...animals, data]);
+      });
   };
 
-  const deleteAnimal = (value) => {
-    setAnimals(animals.filter((item) => item.name !== value.name));
+  const deleteAnimal = async (value) => {
+    const response = await fetch(`http://localhost:3001/animals/${value.id}`, {
+      method: "DELETE",
+    });
+    if (response.status === 200) {
+      setAnimals(animals.filter((item) => item.id !== value.id));
+    }
   };
 
   return (
     <>
-      <Form item={animalSelected} theme={theme} onSubmit={addAnimal} />
-      <ul>
-        {animals.map((animal) => (
+      {!animals && (
+        <>
           <ListItem
             theme={theme}
-            key={animal.name}
-            animal={animal}
-            onClick={() => setAnimalSelected(animal)}
-            deleteAnimal={deleteAnimal}
-            handleQuantityChange={handleQuantityChange}
+            animal={{ name: "...", quantity: "..." }}
+            handleQuantityChange={() => {}}
           />
-        ))}
-      </ul>
-      Total: {animals.reduce((acc, item) => acc + item.quantity, 0)}
+          <ListItem
+            theme={theme}
+            animal={{ name: "...", quantity: "..." }}
+            handleQuantityChange={() => {}}
+          />
+        </>
+      )}
+      {animals && (
+        <>
+          <Form item={animalSelected} theme={theme} onSubmit={addAnimal} />
+          <ul>
+            {animals.map((animal) => (
+              <ListItem
+                theme={theme}
+                key={animal.name}
+                animal={animal}
+                onClick={() => setAnimalSelected(animal)}
+                deleteAnimal={deleteAnimal}
+                handleQuantityChange={handleQuantityChange}
+              />
+            ))}
+          </ul>
+          Total: {animals.reduce((acc, item) => acc + item.quantity, 0)}
+        </>
+      )}
     </>
   );
 }

@@ -1,0 +1,19 @@
+{
+  "animals": [
+    {
+      "id": 1,
+      "name": "Chat",
+      "quantity": 3
+    },
+    {
+      "id": 2,
+      "name": "Chien",
+      "quantity": 4
+    },
+    {
+      "id": 3,
+      "name": "Dromadaire",
+      "quantity": 6
+    }
+  ]
+}
