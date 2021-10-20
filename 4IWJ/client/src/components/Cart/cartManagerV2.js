@@ -19,7 +19,7 @@ export default {
     if (this.items.find((i) => i.id === item.id)) {
       this.items = this.items.map((i) => {
         if (i.id === item.id) {
-          this.update({ ...i, quantity: i.quantity + 1 });
+          this.update({ i, quantity: i.quantity + 1 });
         }
         return i;
       });
@@ -29,11 +29,11 @@ export default {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ ...item, quantity: 1 }),
+        body: JSON.stringify({ item, quantity: 1 }),
       })
         .then((res) => res.json())
         .then((item) => {
-          this.items = [...this.items, { ...item, quantity: 1 }];
+          this.items = [...this.items, { item, quantity: 1 }];
           this?.callback();
         });
     }
@@ -71,7 +71,13 @@ export default {
       });
   },
   getItems: function getItems() {
-    return this.items;
+    //{id, item, quantity}
+    return this.items.map((i) => ({
+      ...i.item,
+      quantity: i.quantity,
+      id: i.id,
+    }));
+    //{id, name, price, quantity}
   },
   save: function () {
     fetch("http://localhost:3001/orders", {

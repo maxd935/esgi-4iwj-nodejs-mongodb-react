@@ -11,6 +11,7 @@ export default function Button({
   //const { onClick, title } = props;
 
   const Component = variant === "button" ? "button" : "a";
+  const context = useContext(ThemeContext);
 
   return (
     <ThemeContext.Consumer>

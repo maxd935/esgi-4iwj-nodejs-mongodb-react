@@ -1,5 +1,6 @@
 const http = require("http");
 const https = require("https");
+const { JSDOM } = require("jsdom");
 
 module.exports = class Scrapper {
   constructor({ url, processData, ...options }) {
@@ -30,7 +31,7 @@ module.exports = class Scrapper {
               data = JSON.parse(data);
             }
             if (response.headers["content-type"].includes("text/html")) {
-              //
+              data = new JSDOM(data).window.document;
             }
             res(this.processData(data));
           });

@@ -1,7 +1,7 @@
 import List from "./List";
 import manager from "./productManager";
 import ProductItem from "./ProductItem";
-import cartManager from "./cartManager";
+import cartManager from "./cartManagerV2";
 
 export default function ListProduct() {
   const Item = (props) => {
