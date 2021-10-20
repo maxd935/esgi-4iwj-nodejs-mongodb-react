@@ -15,5 +15,79 @@
       "name": "Dromadaire",
       "quantity": 6
     }
+  ],
+  "products": [
+    {
+      "id": 1,
+      "name": "Pomme",
+      "price": 0.5
+    },
+    {
+      "id": 2,
+      "name": "Poire",
+      "price": 0.75
+    },
+    {
+      "id": 3,
+      "name": "Banane",
+      "price": 1
+    },
+    {
+      "id": 4,
+      "name": "Orange",
+      "price": 1.25
+    },
+    {
+      "id": 5,
+      "name": "Papaye",
+      "price": 1.5
+    },
+    {
+      "id": 6,
+      "name": "Cerise",
+      "price": 1.75
+    }
+  ],
+  "orders": [
+    {
+      "items": [
+        {
+          "id": 3,
+          "name": "Banane",
+          "price": 1,
+          "quantity": 2
+        },
+        {
+          "id": 4,
+          "name": "Orange",
+          "price": 1.25,
+          "quantity": 1
+        },
+        {
+          "id": 5,
+          "name": "Papaye",
+          "price": 1.5,
+          "quantity": 2
+        }
+      ],
+      "id": 1
+    },
+    {
+      "items": [
+        {
+          "id": 6,
+          "name": "Cerise",
+          "price": 1.75,
+          "quantity": 5
+        },
+        {
+          "id": 5,
+          "name": "Papaye",
+          "price": 1.5,
+          "quantity": 1
+        }
+      ],
+      "id": 2
+    }
   ]
 }

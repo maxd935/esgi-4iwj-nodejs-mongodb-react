@@ -3,6 +3,9 @@ const http = require("http");
 const request = http.request(
   "http://www.omdbapi.com/?apikey=6565fb34&s=star+wars",
   (res) => {
+    if (res.statusCode >= 400) {
+      throw new Error("Error failed to fetch");
+    }
     let data = [];
     // Get the data
     res.on("data", (chunk) => {
