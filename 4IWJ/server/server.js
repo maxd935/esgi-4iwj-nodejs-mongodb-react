@@ -1,4 +1,9 @@
 const express = require("express");
+require("./lib/mongo");
+
+const UserRouter = require("./routes/user");
+const ProductRouter = require("./routes/product");
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 // API RESTFULL
@@ -19,11 +24,15 @@ const PORT = process.env.PORT || 3000;
 // - 400 : Bad Request
 // PUT /users/:id : Modifie un utilisateur
 // - 200 : OK
-// - 404 : Not Found
 // - 400 : Bad Request
-// DELETE /users/:id : Supprime un utilisateur
-// - 204 : OK
 // - 404 : Not Found
+// DELETE /users/:id : Supprime un utilisateur
+// - 204 : Not Content
+// - 404 : Not Found
+app.use(express.json());
+
+app.use("/users", UserRouter);
+app.use("/products", ProductRouter);
 
 app.listen(PORT, () => {
   console.log("Server is running on port " + PORT);

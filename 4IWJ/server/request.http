@@ -1,0 +1,59 @@
+GET http://localhost:3000/users
+
+###
+GET http://localhost:3000/users/1
+
+###
+GET http://localhost:3000/users/2
+
+###
+DELETE http://localhost:3000/users/1
+
+###
+DELETE http://localhost:3000/users/2
+
+###
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "nom": "John Doe",
+  "email": ""
+}
+###
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "nom": "John Doe",
+  "prenom": "John Doe",
+  "email": ""
+}
+###
+PUT http://localhost:3000/users/1
+Content-Type: application/json
+
+{
+  "nom": "John Doe",
+  "prenom": "John Doe",
+  "email": ""
+}
+
+###
+PUT http://localhost:3000/users/2
+Content-Type: application/json
+
+{
+  "nom": "John Doe",
+  "prenom": "John Doe",
+  "email": ""
+}
+
+###
+PUT http://localhost:3000/users/1
+Content-Type: application/json
+
+{
+  "prenom": "John Doe",
+  "email": ""
+}
