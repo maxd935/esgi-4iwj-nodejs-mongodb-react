@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const UserModel = require("../models/mongo/user");
+const UserModel = require("../models/mongo/product");
 const router = Router();
 
 router.get("", (req, res) => {
