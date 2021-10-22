@@ -4,7 +4,6 @@ import { useState } from "react";
 import Button from "./components/Button";
 import Menu from "./components/Menu/Nav";
 import List from "./components/List/List";
-import Ecommerce from "./components/Cart";
 import ThemeContext, { ThemeProvider } from "./contexts/ThemeContext";
 
 function App() {
@@ -42,8 +41,6 @@ function App() {
       </ThemeProvider>
     </div>
   );
-
-  return <Ecommerce />;
 }
 
 export default App;

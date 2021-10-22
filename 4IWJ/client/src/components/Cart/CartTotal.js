@@ -1,19 +1,12 @@
-import { useEffect, useState } from "react";
-import cartManager from "./cartManagerV2";
+import { useContext, useEffect, useState } from "react";
+import CartContext from "../../contexts/CartContext";
 
 export default function CartTotal() {
-  const [cart, setCart] = useState(null);
-  useEffect(() => {
-    cartManager.onUpdate(() => setCart(new Date().getTime()));
-  }, []);
+  const { selectors } = useContext(CartContext);
 
   return (
     <p>
-      Total:{" "}
-      {cartManager
-        .getItems()
-        .reduce((acc, item) => acc + item.quantity * item.price, 0)}{" "}
-      for {cartManager.getItems().length} items
+      Total: {selectors.getPrice()} for {selectors.getItemsCount()} items
     </p>
   );
 }

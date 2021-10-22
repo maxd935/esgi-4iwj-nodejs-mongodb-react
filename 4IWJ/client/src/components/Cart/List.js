@@ -1,23 +1,21 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 
-export default function List({ manager, ItemComponent, FormComponent }) {
-  const [items, setItems] = useState(manager.getItems());
+export default function List({ context, ItemComponent, FormComponent }) {
+  const { actions, selectors } = useContext(context);
+  const items = selectors.getItems();
 
   useEffect(() => {
-    manager.onUpdate(() => {
-      setItems(manager.getItems());
-    });
-    manager.loadItems && manager.loadItems();
+    actions.loadItems && actions.loadItems();
   }, []);
 
   const itemActions = {};
-  manager.delete && (itemActions.onDelete = (item) => manager.delete(item));
-  manager.update && (itemActions.onUpdate = (item) => manager.update(item));
+  actions.delete && (itemActions.onDelete = (item) => actions.delete(item));
+  actions.update && (itemActions.onUpdate = (item) => actions.update(item));
 
   return (
     <>
       {FormComponent && (
-        <FormComponent onSubmit={(item) => manager.add(item)} />
+        <FormComponent onSubmit={(item) => actions.add(item)} />
       )}
       {!items && <div>Loading...</div>}
       {items && !items.length && <p>No values</p>}

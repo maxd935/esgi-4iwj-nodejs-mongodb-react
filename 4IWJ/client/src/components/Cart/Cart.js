@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import CartContext from "../../contexts/CartContext";
 import CartItem from "./CartItem";
 import cartManager from "./cartManagerV2";
 import CartTotal from "./CartTotal";
@@ -9,12 +10,13 @@ export default function Cart() {
   //useEffect(() => {
   //  cartManager.onUpdate(() => setCart(new Date().getTime()));
   //}, []);
+  const { actions } = useContext(CartContext);
 
   return (
     <>
-      <List manager={cartManager} ItemComponent={CartItem} />
+      <List context={CartContext} ItemComponent={CartItem} />
       <CartTotal />
-      <button onClick={() => cartManager.save()}>Checkout</button>
+      <button onClick={() => actions.save()}>Checkout</button>
     </>
   );
 }
