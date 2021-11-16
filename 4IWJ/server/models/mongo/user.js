@@ -9,6 +9,10 @@ const UserSchema = new Mongoose.Schema({
     type: String,
     required: true,
   },
+  address: {
+    type: String,
+    required: true,
+  },
   email: {
     type: String,
     validate: {
@@ -19,6 +23,7 @@ const UserSchema = new Mongoose.Schema({
       },
     },
   },
+  articles: Array,
 });
 
 const User = Mongoose.model("User", UserSchema);

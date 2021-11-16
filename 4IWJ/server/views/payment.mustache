@@ -1,0 +1,15 @@
+<html>
+    <head></head>
+    <body>
+        <h1>Payment Script</h1>
+        <form method="post">
+            <input name="cardNumber"/>
+            <input name="cardExpirationDate"/>
+            <input name="cardCVV"/>
+            <input type="submit" value="Checkout"/>
+        </form>
+    </body>
+    {{#submitted}}
+        <h1>Thank you for your payment!</h1>
+    {{/submitted}}
+</html>

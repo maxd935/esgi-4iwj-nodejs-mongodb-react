@@ -1,13 +1,14 @@
 require("dotenv").config();
 const express = require("express");
+const mustacheExpress = require("mustache-express");
 require("./lib/mongo");
 require("./models/sequelize");
 
 const UserRouter = require("./routes/userSequelize");
 const SecurityRouter = require("./routes/security");
 const ArticleRouter = require("./routes/articleSequelize");
-const verifyJwt = require("./middlewares/verifyJwt");
 
+const verifyJwt = require("./middlewares/verifyJwt");
 const app = express();
 const PORT = process.env.PORT || 3000;
 // API RESTFULL
@@ -33,9 +34,23 @@ const PORT = process.env.PORT || 3000;
 // DELETE /users/:id : Supprime un utilisateur
 // - 204 : Not Content
 // - 404 : Not Found
+app.engine("mustache", mustacheExpress());
+app.set("view engine", "mustache");
+app.set("views", __dirname + "/views");
+
 app.use(express.json());
+app.use(express.urlencoded());
 
 app.use(SecurityRouter);
+app.get("/payment", (req, res) => {
+  res.render("payment");
+});
+app.post("/payment", (req, res) => {
+  console.log(req.body);
+  res.render("payment", {
+    submitted: true,
+  });
+});
 app.get("/", verifyJwt(false), (req, res) => {
   console.log(req.user);
   res.json(req.user);
