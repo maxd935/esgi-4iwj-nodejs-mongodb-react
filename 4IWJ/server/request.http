@@ -1,7 +1,7 @@
 GET http://localhost:3000/users
 
 ###
-GET http://localhost:3000/users/111111111111
+GET http://localhost:3000/users/3
 
 ###
 GET http://localhost:3000/users/61729a6949e1294587b5ed6f
@@ -10,7 +10,7 @@ GET http://localhost:3000/users/61729a6949e1294587b5ed6f
 DELETE http://localhost:3000/users/61729a4949e1294587b5ed6a
 
 ###
-DELETE http://localhost:3000/users/2
+DELETE http://localhost:3000/users/3
 
 ###
 POST http://localhost:3000/users
@@ -28,10 +28,11 @@ Content-Type: application/json
 {
   "nom": "John Doe",
   "prenom": "John Doe",
-  "email": ""
+  "email": "",
+  "password": "test"
 }
 ###
-PUT http://localhost:3000/users/61729a6949e1294587b5ed6f
+PUT http://localhost:3000/users/3
 Content-Type: application/json
 
 {
@@ -46,7 +47,8 @@ Content-Type: application/json
 {
   "nom": "John Doe",
   "prenom": "John Doe",
-  "email": ""
+  "email": "test@test.com",
+  "password": "test"
 }
 
 ###
@@ -57,3 +59,32 @@ Content-Type: application/json
   "prenom": "John Doe",
   "email": ""
 }
+
+###
+POST http://localhost:3000/articles
+Content-Type: application/json
+
+{
+  "title": "John Doe",
+  "content": "John Doe",
+  "authorId": 2
+}
+
+###
+GET http://localhost:3000/articles
+
+
+###
+DELETE http://localhost:3000/articles/2
+
+###
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+  "email": "test@test.com",
+  "password": "test"
+}
+
+###
+GET http://localhost:3000/

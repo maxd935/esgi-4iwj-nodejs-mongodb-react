@@ -1,8 +1,12 @@
+require("dotenv").config();
 const express = require("express");
 require("./lib/mongo");
+require("./models/sequelize");
 
-const UserRouter = require("./routes/user");
-const ProductRouter = require("./routes/product");
+const UserRouter = require("./routes/userSequelize");
+const SecurityRouter = require("./routes/security");
+const ArticleRouter = require("./routes/articleSequelize");
+const verifyJwt = require("./middlewares/verifyJwt");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -31,8 +35,14 @@ const PORT = process.env.PORT || 3000;
 // - 404 : Not Found
 app.use(express.json());
 
+app.use(SecurityRouter);
+app.get("/", verifyJwt(false), (req, res) => {
+  console.log(req.user);
+  res.json(req.user);
+});
+app.use(verifyJwt());
 app.use("/users", UserRouter);
-app.use("/products", ProductRouter);
+app.use("/articles", ArticleRouter);
 
 app.listen(PORT, () => {
   console.log("Server is running on port " + PORT);
