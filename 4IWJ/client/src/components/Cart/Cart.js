@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import CartContext from "../../contexts/CartContext";
 import CartItem from "./CartItem";
 import cartManager from "./cartManagerV2";
@@ -11,12 +12,14 @@ export default function Cart() {
   //  cartManager.onUpdate(() => setCart(new Date().getTime()));
   //}, []);
   const { actions } = useContext(CartContext);
-
+  const navigate = useNavigate();
   return (
     <>
       <List context={CartContext} ItemComponent={CartItem} />
       <CartTotal />
-      <button onClick={() => actions.save()}>Checkout</button>
+      <button onClick={() => actions.save().then(() => navigate("/"))}>
+        Checkout
+      </button>
     </>
   );
 }

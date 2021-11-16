@@ -1,4 +1,4 @@
-GET http://localhost:3000/users
+GET http://localhost:3002/users
 
 ###
 GET http://localhost:3000/users/3
@@ -22,13 +22,13 @@ Content-Type: application/json
   "email": "test@test.com"
 }
 ###
-POST http://localhost:3000/users
+POST http://localhost:3002/users
 Content-Type: application/json
 
 {
   "nom": "John Doe",
   "prenom": "John Doe",
-  "email": "",
+  "email": "test@test.com",
   "password": "test"
 }
 ###

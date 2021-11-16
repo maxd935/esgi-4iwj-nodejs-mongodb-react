@@ -3,6 +3,7 @@ const express = require("express");
 const mustacheExpress = require("mustache-express");
 require("./lib/mongo");
 require("./models/sequelize");
+const cors = require("cors");
 
 const UserRouter = require("./routes/userSequelize");
 const SecurityRouter = require("./routes/security");
@@ -40,6 +41,7 @@ app.set("views", __dirname + "/views");
 
 app.use(express.json());
 app.use(express.urlencoded());
+app.use(cors());
 
 app.use(SecurityRouter);
 app.get("/payment", (req, res) => {
