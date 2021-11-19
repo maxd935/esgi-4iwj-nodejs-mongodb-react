@@ -100,7 +100,7 @@ Si un match est en attente (pas de user2), on le modifie pour ajouter le **user2
     - si **idTurn** est déjà terminé `{ turn: "not last" }`
     - si **match** est déjà terminé `{ match: "Match already finished" }`
     - si le joueur a déjà joué le tour et attend l'adversaire `{ user: "move already given" }`
-  - Si tout se passe bien **Code 200**
+  - Si tout se passe bien **Code 202**
 
 
 # Notifications du match
